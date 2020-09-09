@@ -1,0 +1,2 @@
+###show
+GET http://localhost:3000/admin/api/show
