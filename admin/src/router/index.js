@@ -20,6 +20,7 @@ import AdList from '../views/AdList.vue'
 
 import AdminUserEdit from '../views/AdminUserEdit.vue'
 import AdminUserList from '../views/AdminUserList.vue'
+import { Form } from 'element-ui'
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,8 @@ Vue.use(VueRouter)
     {
         path:'/login',
         name:'login',
-        component:Login
+        component:Login,
+        meta: {isPublic : true}
     },
     {
         path: '/',
@@ -63,6 +65,13 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to,from,next)=>{
+    if(!to.meta.isPublic && !localStorage.token){
+        return next('/login')
+    }
+    next()
 })
 
 export default router

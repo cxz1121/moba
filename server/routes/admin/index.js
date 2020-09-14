@@ -16,16 +16,7 @@ module.exports = (app) => {
         res.send(model);
     });
     //查询限定数据limit
-    router.get('/',  async (req, res, next) => {
-        const token = String(req.headers.authorization || '').split(' ').pop()
-        assert(token, 401, '请先登录')
-        const {id} = jwt.verify(token,app.get('secret'))
-        assert(id, 401, '请先登录')
-        req.user = await adminuser.findById(id)
-        assert(req.user, 401, '请先登录')
-        // console.log(req.user)
-        await next()
-    } , async (req, res) => {
+    router.get('/',   async (req, res) => {
         const queryOptions = {};
         if (req.Model.modelName === 'category') {
             queryOptions.populate = 'parent';
@@ -60,21 +51,19 @@ module.exports = (app) => {
         const model = await req.Model.find();
         res.send(model);
     });
+    //登录校验 中间件     
+    const authMiddleWare = require('../../middleware/auth')
+    //资源 中间件
+    const resourceMiddleWare = require('../../middleware/resource')
 
-    app.use(
-        '/admin/api/rest/:resource',
-        async (req, res, next) => {
-            req.Model = require('../../models/' + req.params.resource);
-            next();
-        },
-        router
-    );
+
+    app.use('/admin/api/rest/:resource', authMiddleWare(), resourceMiddleWare(), router);
+
 
     //上传
-
     const multer = require('multer');
     const upload = multer({ dest: __dirname + '/../../upload' });
-    app.post('/admin/api/upload', upload.single('file'), async (req, res) => {
+    app.post('/admin/api/upload', authMiddleWare() , upload.single('file'), async (req, res) => {
         const file = req.file;
         file.url = 'http://localhost:3000/upload/' + file.filename;
         res.send(file);
