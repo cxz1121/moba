@@ -28,6 +28,7 @@ $colors:(
     "grey":#999,
     "grey-1":#666,
     "light":#f9f9f9,
+    "light-1":#d4d9de,
 );
 @each $colorkey,$color in $colors {
     .text-#{$colorkey}{
@@ -54,6 +55,7 @@ $font-sizes:(
     md:1, //13px
     lg:1.076923, //14px
     xl:1.230769, //16px
+    xxl:1.384615,
 );
 @each $sizekey,$size in $font-sizes {
     .fs-#{$sizekey}{
@@ -152,12 +154,21 @@ $spacing-sizes:(
 }
 
 .nav {
+    display: flex;
     .nav-item {
         border-bottom: 3px solid transparent;
         padding-bottom: 0.1rem;
         &.active {
-            border-bottom: 3px solid #fff;
+            color: #db9e3f;
+            border-bottom-color: #db9e3f;
         }
     }
-    
+    &.nav-inverse{
+        .nav-item{
+            color: #fff;
+            &.active{
+                border-bottom-color: #fff;
+            }
+        }
+    }
 }
