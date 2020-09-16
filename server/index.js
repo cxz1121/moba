@@ -10,6 +10,7 @@ app.use(require('cors')())
 app.use('/upload',express.static(__dirname + '/upload'))
 
 require('./routes/admin')(app)
+require('./routes/web')(app)
 require('./plugins/db')(app)
 
 app.listen(3000,()=>{

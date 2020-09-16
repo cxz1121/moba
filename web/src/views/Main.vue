@@ -10,7 +10,7 @@
             <button type="button" class="btn bg-primary">立即下载</button>
         </div>
 
-        <div class="bg-primary pt-3 pb-2">
+        <div class="bg-primary pt-3 pb-2 mt">
             <div class="nav nav-inverse d-flex jc-around text-white pb-1">
                 <div class="nav-item active ">
                     <router-link class="nav-link" tag="div" to="/">首页</router-link>
@@ -44,7 +44,17 @@ export default {
     },
 }
 </script>
-<style scoped>
+<style lang="scss">
 /* @import url(); 引入css类 */
+.topbar{
+    // position:fixed;
+    position: sticky;
+    top: 0; 
+    width: 100%;
+    z-index: 999;
+}
+.mt{
+    // margin-top: 3.557692rem;
+}
 
 </style>

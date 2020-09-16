@@ -82,16 +82,14 @@
 
 
         <m-list-card icon="menu1" title="新闻资讯" :categories="newsCats">
-			<div v-for="n in 5" :key="n" class="py-2 d-flex jc-between px-1">
-			    <div>
-			        <span> [新闻] </span>
-			        <span> | </span>
-			        <span> 郑爽张继科空降QQ名人赛，互动观赛赢好礼 </span>
-			    </div>
-			    <div>
-			        <span> 06/06 </span>
-			    </div>
-			</div>
+            <template #items="{category}">
+                <div v-for="(newslist,index) in category.newsList" :key="index" class="py-2 d-flex jc-between px-1">
+                        <span class="text-primary"> [{{newslist.categoryName}}] </span>
+                        <span class="ml-1"> | </span>
+                        <span class="news-title ml-1 flex-1"> {{newslist.title}} </span>
+                        <span> {{newslist.updatedAt}} </span>
+                </div>
+            </template>
         </m-list-card>
 
         <m-card icon="" title="英雄列表">
@@ -104,102 +102,18 @@
 </template>
 
 <script>
+
+import dayjs from "dayjs";
+
 export default {
+    filters:{
+        date(val){
+            return dayjs(val).format('MM/DD')
+        }
+    },
     data() {
         return {
-			newsCats:[
-				{
-					news:"热门",
-					newslist:[
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						}
-					]
-				},
-				{
-					news:"新闻",
-					newslist:[
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						}
-					]
-				},
-				{
-					news:"公告",
-					newslist:[
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						},
-						{
-							categoryname:"公告",
-							title:"郑爽张继科空降QQ名人赛，互动观赛赢好礼",
-							date:"06/06"
-						}
-					]
-				}
-				
-			],
+			newsCats:[],
             isShow:true,
             swiperOptions: {
                 //loop: true, // 开启循环
@@ -219,12 +133,25 @@ export default {
             }else{
                 this.isShow =true
             }
+        },
+        async fetchNewsCats(){
+            const res = await this.$http.get('news/list')
+            console.log(res.data)
+            this.newsCats = res.data
         }
+    },
+    created(){
+        this.fetchNewsCats()
     }
 }
 </script>
 
 <style lang="scss">
+.news-title{
+    // overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+}
 .show{
     display: block;
 }
