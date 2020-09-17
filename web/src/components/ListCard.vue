@@ -1,5 +1,5 @@
 <template>
-        <m-card icon="menu1" title="新闻资讯">
+        <m-card :icon="icon" :title="title">
             <div class="nav jc-between px-2">
                 <div class="nav-item" :class="{active: active === i}" 
 				v-for="(category,i) in categories" :key="i" 
@@ -7,7 +7,8 @@
                     <div class="nav-link">{{category.name}}</div>
                 </div>
             </div>
-            <swiper class="mt-2" ref="list" @slide-change="() => active = $refs.list.swiper.realIndex">
+            <swiper class="mt-2" ref="list" :options="{autoHeight:true}"
+            @slide-change="() => active = $refs.list.swiper.realIndex">
                 <swiper-slide v-for="(category,i) in categories" :key="i">
                     <slot name="items" :category="category"></slot>
                 </swiper-slide>

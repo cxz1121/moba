@@ -83,18 +83,32 @@
 
         <m-list-card icon="menu1" title="新闻资讯" :categories="newsCats">
             <template #items="{category}">
-                <div v-for="(newslist,index) in category.newsList" :key="index" class="py-2 d-flex jc-between px-1">
-                        <span class="text-primary"> [{{newslist.categoryName}}] </span>
-                        <span class="ml-1"> | </span>
-                        <span class="news-title ml-1 flex-1"> {{newslist.title}} </span>
-                        <span> {{newslist.updatedAt}} </span>
-                </div>
+                <router-link 
+                tag="div"
+                :to="'/article/'+newslist._id" 
+                v-for="(newslist,index) in category.newsList" :key="index" 
+                class="py-2 d-flex jc-between px-1">
+                    <span class="text-primary"> [{{newslist.categoryName}}] </span>
+                    <span class="ml-1"> | </span>
+                    <span class="news-title ml-1 mr-2 flex-1 text-ellipsis"> {{newslist.title}} </span>
+                    <span class="text-grey fs-sm"> {{newslist.updatedAt | date}} </span>
+                </router-link>
             </template>
         </m-list-card>
 
-        <m-card icon="" title="英雄列表">
+        <m-list-card icon="card-hero" title="英雄列表" :categories="heroCats">
+            <template #items="{category}">
+                <div class="d-flex flex-wrap" style="margin:0 -0.2rem;">
+                    <div v-for="(heroList,index) in category.heroList" :key="index" 
+                    style="width:20%" class="p-2 text-center">
+                        <img class="w-100" :src="heroList.avatar">
+                        <div>{{heroList.name}}</div>
+                    </div>
+                </div>
+            </template>
+        </m-list-card>
             
-        </m-card>
+
         <m-card icon="" title="精彩视频">
             
         </m-card>
@@ -114,6 +128,7 @@ export default {
     data() {
         return {
 			newsCats:[],
+			heroCats:[],
             isShow:true,
             swiperOptions: {
                 //loop: true, // 开启循环
@@ -138,20 +153,22 @@ export default {
             const res = await this.$http.get('news/list')
             console.log(res.data)
             this.newsCats = res.data
+        },
+        async fetchHeroesCats(){
+            const res = await this.$http.get('heroes/list')
+            console.log(res.data)
+            this.heroCats = res.data
         }
     },
     created(){
         this.fetchNewsCats()
+        this.fetchHeroesCats()
     }
 }
 </script>
 
 <style lang="scss">
-.news-title{
-    // overflow: hidden;
-    // white-space: nowrap;
-    // text-overflow: ellipsis;
-}
+
 .show{
     display: block;
 }

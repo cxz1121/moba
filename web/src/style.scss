@@ -62,7 +62,12 @@ $font-sizes:(
         font-size: $size * $base-font-size;
     }
 }
-
+.text-ellipsis{
+    overflow: hidden;
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 //flex
 .d-flex{
     display: flex;
