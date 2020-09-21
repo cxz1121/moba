@@ -99,11 +99,14 @@
         <m-list-card icon="card-hero" title="英雄列表" :categories="heroCats">
             <template #items="{category}">
                 <div class="d-flex flex-wrap" style="margin:0 -0.2rem;">
-                    <div v-for="(heroList,index) in category.heroList" :key="index" 
+                    <router-link 
+                    tag="div"
+                    :to="/hero/+heroList._id"
+                    v-for="(heroList,index) in category.heroList" :key="index" 
                     style="width:20%" class="p-2 text-center">
                         <img class="w-100" :src="heroList.avatar">
                         <div>{{heroList.name}}</div>
-                    </div>
+                    </router-link>
                 </div>
             </template>
         </m-list-card>

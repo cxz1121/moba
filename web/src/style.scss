@@ -15,11 +15,15 @@ body {
 a {
     color: #999;
 }
+p {
+    line-height: 1.5em;
+}
 img{
     vertical-align: middle;
 }
 //colors
 $colors:(
+    "blue":#4394e4,
     "primary":#db9e3f,
     "white":#fff,
     "black":#000,
@@ -148,6 +152,12 @@ $spacing-sizes:(
                 #{$type}-#{$direction}: $size * $spacing-base-size
             }
         }
+    }
+}
+
+@each $dir in (top,right,bottom,left) {
+    .border-#{$dir}{
+        border-#{$dir}:1px solid #d4d4d5;
     }
 }
 
