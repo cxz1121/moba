@@ -33,6 +33,8 @@ $colors:(
     "grey-1":#666,
     "light":#f9f9f9,
     "light-1":#d4d9de,
+    "red":rgb(240,68,80),
+    "lighting":#f8f8f9,
 );
 @each $colorkey,$color in $colors {
     .text-#{$colorkey}{
@@ -72,6 +74,9 @@ $font-sizes:(
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.text-bold{
+    font-weight: bold;
+}
 //flex
 .d-flex{
     display: flex;
@@ -107,6 +112,9 @@ $flex-ai:(
 }
 .w-100{
     width: 100%;
+}
+.h-100{
+    height: 100%;
 }
 .flex-1{
     flex:1;
@@ -166,6 +174,17 @@ $spacing-sizes:(
     font-size: map-get($font-sizes,'sm') * $base-font-size;
     border-radius: 0.153846rem;
     padding: 0.3rem 0.6rem;
+    &.btn-lg{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        i{
+            color: map-get($colors,'primary');
+            margin-right: 0.3rem;
+        }
+        border: 1px solid #e7e7e7;
+        padding: 0.8rem 0;
+    }
 }
 
 .nav {
